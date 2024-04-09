@@ -36,7 +36,7 @@ class Activity extends BackendController
         }
         $logs = $this->activityLog
             ->joinModel(BackendUser::class, 'u', 'main_table.user_id=u.user_id')
-            ->where('request_id',$this->request->getId(),'!=')
+            ->where('request_id', $this->request->getId(), '!=')
             ->order('backend_activity_log_id')
             ->pagination()
             ->select()
@@ -45,6 +45,21 @@ class Activity extends BackendController
         $this->assign('request_id', $this->request->getId());
         $this->assign('pagination', $this->activityLog->getPagination());
         return $this->fetch('listing');
+    }
+
+    #[Acl('Aiweline_BackendActivity::delete', '删除日志', 'fas fa-trash', '删除日志')]
+    function getDelete()
+    {
+        $id = $this->request->getGet('id');
+        if (!$id) {
+            $this->getMessageManager()->addError('日志不存在！');
+            return $this->redirect('*/backend/activity/listing');
+        }
+        $res = $this->activityLog->clearData()->reset()
+            ->where('backend_activity_log_id', $this->request->getGet('id'))
+            ->delete();
+        $this->getMessageManager()->addSuccess('日志已删除！');
+        return $this->redirect('*/backend/activity/listing');
     }
 
     #[Acl('Weline_BackendActivity::show', '后台活动详情', 'fas fa-eye', '查看后台活动详情')]
