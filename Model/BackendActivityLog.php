@@ -69,7 +69,7 @@ class BackendActivityLog extends Model
                 ->addColumn(self::fields_host, TableInterface::column_type_VARCHAR, 255, 'not null', '请求主机')
                 ->addColumn(self::fields_path, TableInterface::column_type_VARCHAR, 255, 'not null', '请求路径')
                 ->addColumn(self::fields_module, TableInterface::column_type_VARCHAR, 255, 'not null', '模块')
-                ->addColumn(self::fields_url, TableInterface::column_type_VARCHAR, 255, 'not null', 'url')
+                ->addColumn(self::fields_url, TableInterface::column_type_VARCHAR, 1024, 'not null', 'url')
                 ->addColumn(self::fields_request_method, TableInterface::column_type_VARCHAR, 6, 'not null', '请求方法')
                 ->addColumn(self::fields_request_params, TableInterface::column_type_TEXT, null, 'not null', '请求参数')
                 ->addColumn(self::fields_request_data, TableInterface::column_type_TEXT, null, 'not null', '请求数据')
